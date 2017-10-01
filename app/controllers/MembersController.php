@@ -1,34 +1,41 @@
 <?php
 
 use \Core\Requests as Requests;
+use \Models\Members;
 
 class MembersController extends \Core\Controller
 {
     public function __construct()
     {
         $q = Requests::queryStrings();
-        if ( isset( $q['uid'] ))
+        if ( $q->uid )
             return sendJsonResponse(
-                $this->model('Members')
-                    ->single($q['uid'])
+                (new Members())->single( $q->uid )
         );
-        // return sendJsonResponse($q);
-        // var_dump($q);
     }
 
     public function add()
     {
-        $res = $this->model('Members')
-                    ->new();
+        $res = (new Members())->new();
 
         return sendJsonResponse($res);
     }
 
     public function all()
     {
-        $res = $this->model('Members')
-                    ->all();
-
+        $res = (new Members())->all();
         return sendJsonResponse($res);
+    }
+
+    public function search()
+    {
+        $id = Requests::queryStrings()->id;
+        if ( ! $id )
+            return sendJsonResponse( [
+                'msg' => 'Valid ID code missing.',
+                'success' => 0
+            ] );
+        $result = (new Members())->search( $id );
+        return sendJsonResponse( $result );
     }
 }

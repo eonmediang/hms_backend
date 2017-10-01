@@ -1,5 +1,7 @@
 <?php 
 
+namespace Models;
+
 use Core\Requests as Request;
 use Core\Registry;
 
@@ -17,13 +19,13 @@ class Members
         $sql = "SELECT `members`.*, `associations`.`name` AS assoc_name, `associations`.`id` AS assoc_id
                  FROM `members`
                   INNER JOIN `associations`
-                   ON `members`.`assoc_id` = `associations`.`id`";
+                   ON `members`.`assoc_id` = `associations`.`id`
+                    ORDER BY `members`.`fname`, `members`.`lname`";
 
         $all = $this->db->fetchAll($sql);
         foreach ($all as $single) {
-            $single->dob = date_format(new DateTime($single->dob), 'j/m/Y');
+            $single->dob = date_format(new \DateTime($single->dob), 'j/m/Y');
             $single->uid = genUid($single->id);
-            $single->pid = parseUid($single->uid)->lid;
         }
         return $all;
     }
@@ -80,9 +82,9 @@ class Members
         // Format dob
         $dob = str_replace('/', '-', $dob);
         try {
-            $dob_formatted = new DateTime($dob);
+            $dob_formatted = new \DateTime($dob);
             $dob_formatted = $dob_formatted->format(DATE_W3C);
-        } catch (Exception $e){
+        } catch (\Exception $e){
             return ['data' => 'Invalid date.', 'success' => 0];
         }
 
@@ -97,8 +99,11 @@ class Members
 
         $sql = "INSERT INTO 
             `members` 
-                (fname, mname, lname, phone, address, sex, dob, m_status, img, assoc_id)
-                    VALUES (:fname, :mname, :lname, :phone, :address, :sex, :dob, :m_status, :img, :assoc_id)";
+                (fname, mname, lname, phone, address, sex, dob, m_status, img, uid, assoc_id)
+                    VALUES (:fname, :mname, :lname, :phone, :address, :sex, :dob, :m_status, :img, :uid, :assoc_id)";
+
+        // Start transaction
+        $this->db->start();
 
         $insert = $this->db->insertOne( $sql, 
                     [   'fname' => $fname,
@@ -110,11 +115,25 @@ class Members
                         'dob' => $dob_formatted,
                         'm_status' => $m_status,
                         'img' => $img_url,
+                        'uid' => '',
                         'assoc_id' => $assoc,
                     ]);
 
-        if ($insert)
-            return ['data' => 'successful', 'success' => 1];
+        if ($insert){
+            // Update newly created record with the generated UID
+            $uid = genUid( $insert );
+            $sql = "UPDATE `members`
+                     SET `members`.`uid` = :uid";
+            $update = $this->db->updateOne($sql, ['uid' => $uid]);
+            if ( $update ){
+                $this->db->save();
+                return ['data' => 'successful', 'success' => 1];
+            } else {
+                $this->db->revert();
+                return ['data' => 'An error occurred. Please try again.', 'success' => 0];
+            }
+        }
+            
         return ['data' => 'An error occurred. Please try again.', 'success' => 0];
     }
 
@@ -137,7 +156,34 @@ class Members
         return [];
 
         $person->uid = $uid;
-        $person->dob = date_format(new DateTime($person->dob), 'j/m/Y');
+        $person->dob = date_format(new \DateTime($person->dob), 'j/m/Y');
         return $person;
+    }
+
+    public function search($uid)
+    {
+        preg_match('/[0-9]+/', $uid, $match);
+        if ( empty( $match ) )
+            return [];
+        $uid = (int) $match[ 0 ];
+
+        $sql = "SELECT `members`.*, `associations`.`name` AS assoc_name, `associations`.`id` AS assoc_id
+                FROM `members`
+                INNER JOIN `associations`
+                ON `members`.`assoc_id` = `associations`.`id`
+                WHERE `members`.`uid` LIKE :uid
+                ORDER BY `members`.`fname`, `members`.`lname`";
+
+        $result = $this->db->fetchAll( $sql, [
+            'uid' => "{$uid}%"
+        ] );
+
+        if ( ! empty($result) ){
+            foreach ($result as $r) {
+                $r->dob = date_format(new \DateTime($r->dob), 'j/m/Y');
+            }
+        }
+
+        return $result;
     }
 }

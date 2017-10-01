@@ -61,7 +61,7 @@ class Requests {
 				$qr[ $e[0] ] = (isset($e[1])) ? $e[1] : '';
 			}	
 		} 
-		$result->query = $qr;
+		$result->query = new \Core\RequestQs( $qr );
 	
 		return $result;
 	
@@ -134,5 +134,21 @@ class RequestHeaders
 	public function __get( $val )
 	{
 		return $this->headers[ $val ] ?? null;
+	}
+}
+
+class RequestQs
+{
+	// Query string array
+	private $qs;
+
+	public function __construct( $results )
+	{
+		$this->qs = $results;
+	}
+
+	public function __get( $value )
+	{
+		return $this->qs[ $value ] ?? null;
 	}
 }

@@ -6,18 +6,17 @@ class ProfileController extends \Core\Controller
 {
     public function __construct()
     {
-
         if (Requests::method() == 'post'){
             return sendJsonResponse(
                 $this->model('Profile')
                     ->update()
             );
         }
-        $q = Requests::queryStrings();
-        if ( isset( $q['uid'] ))
+        $uid = Requests::queryStrings()->uid;
+        if ( $uid )
             return sendJsonResponse(
                 $this->model('Profile')
-                    ->get($q['uid'])
+                    ->get($uid)
             );
     }
 }

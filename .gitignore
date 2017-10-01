@@ -2,6 +2,7 @@
 node_modules/
 dist/
 logs/*
+public/static/img/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

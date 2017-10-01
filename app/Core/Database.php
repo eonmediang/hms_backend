@@ -114,8 +114,7 @@ class Database extends PDO
         try {
             $this->stmt = $this->conn->prepare($sql);
             $this->stmt->execute($vals);
-            if ( ! $this->transaction )
-                return $this->conn->lastInsertId();
+            return $this->conn->lastInsertId();
         } catch(PDOException $e){
             $this->error($e);
             return false;

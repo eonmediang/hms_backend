@@ -28,9 +28,9 @@ class Profile
     {
         $sql = "SELECT * 
                 FROM `admin`
-                WHERE `admin`.`id` = :id";
+                WHERE `admin`.`uid` = :uid";
 
-        return $this->db->fetchOne( $sql, ['id' => parseUid($uid)->lid]);
+        return $this->db->fetchOne( $sql, ['uid' => $uid]);
     }
 
     public function update()
