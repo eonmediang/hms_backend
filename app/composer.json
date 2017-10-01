@@ -1,0 +1,10 @@
+{
+    "require": {
+        "codezero/cookie": "^1.0",
+        "defuse/php-encryption": "^2.0",
+        "dompdf/dompdf": "^0.8.1"
+    },
+    "require-dev": {
+        "vlucas/phpdotenv": "^2.4"
+    }
+}
