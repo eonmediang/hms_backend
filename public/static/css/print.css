@@ -1,0 +1,23 @@
+@media print {
+  * {
+    margin: 0;
+  }
+  @page {
+    size: A4 portrait;
+  }
+  * {
+    margin: 0 !important;
+  }
+  #app {
+    width: 100% !important;
+    height: auto !important;
+  }
+  #site-header,
+  .side-menu {
+    display: none !important;
+  }
+  hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+}
