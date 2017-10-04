@@ -1,6 +1,7 @@
 <?php
 
 use \Core\Requests;
+use \Models\Profile;
 
 class ProfileController extends \Core\Controller
 {

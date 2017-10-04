@@ -25,27 +25,24 @@ class Controller {
 
 	public function view($view, $data = '', $templates = [])
 	{
-		global $CFG;
+		// global $CFG;
+		$CFG = \Config::newInstance();
 		$spa = $CFG->spa ?? false;
 		$header = '';
 		$footer = '';
-		if ( ! $spa ){
-			$header = $templates['header'] ?? $CFG->paths->templates.'/header.php';
-			$footer = $templates['footer'] ?? $CFG->paths->templates.'/footer.php';
+		if ($spa){
+			require_once $CFG->public_dir.'/index.html';
+			die();
 		}
-		$prettyDate = Registry::getInstance()->get('PrettyDate');
-    	$this->cfg = $CFG;
+		$header = $templates['header'] ?? $CFG->paths->templates.'/header.php';
+		$footer = $templates['footer'] ?? $CFG->paths->templates.'/footer.php';
     	$file = __DIR__.'/../views/'.$view.'.php';
     	if ( !file_exists($file) ){
     		throw new Exception("The file 'views/{$view}.php' does not exist", 1);   		
     	}
-		if ( ! $spa ){
-			require_once $header;
-		}
+		require_once $header;
 		require_once $file;
-		if ( ! $spa ){
-			get_scripts( 'footer', $footer );
-		}
+		get_scripts( 'footer', $footer );
 		die();
 	}
 
@@ -87,17 +84,6 @@ class Controller {
 						store::get('url_paths'), 2
 					)
 				);
-
-			case 'cfg':			
-				if ( ! isset( $this->cfg ) ) {
-
-					global $CFG;
-					$this->cfg = $CFG;
-				}
-								
-				return $this->cfg;
-
-				break;
 			
 			default:
 				# code...

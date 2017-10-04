@@ -355,6 +355,7 @@ function sendJsonResponse($response, $code = 200)
 	header('Content-Type: application/json');
 	http_response_code( $code );
 	echo json_encode($response);
+	die();
 }
 
 if (!function_exists('temp_admin_pass')){

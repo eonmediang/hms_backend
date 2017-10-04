@@ -81,6 +81,9 @@ class Config
         //	Templates directory
         $this->templates = $this->absPath.'/app/templates';
 
+        //	Public directory
+        $this->public_dir = $this->absPath.'/public';
+
         //	Assets directory
         $this->assets_dir = $this->absPath.'/public/static/';
 
