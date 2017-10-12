@@ -1,6 +1,7 @@
 <?php
 
 use \Core\Requests as Requests;
+use \Models\Associations;
 
 class AssociationsController extends \Core\Controller
 {
@@ -11,17 +12,14 @@ class AssociationsController extends \Core\Controller
 
     public function add()
     {
-        $res = $this->model('Associations')
-                    ->new();
-
+        $res = (new Associations)->new();
         return sendJsonResponse($res);
     }
 
     public function all()
     {
-        $res = $this->model('Associations')
-                    ->all();
-
-        return sendJsonResponse($res);
+        return sendJsonResponse(
+            (new Associations)->all()
+        );
     }
 }

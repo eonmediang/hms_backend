@@ -1,5 +1,7 @@
 <?php 
 
+namespace Models;
+
 use Core\Requests as Request;
 use Core\Registry;
 
@@ -24,7 +26,7 @@ class Associations
 
         return $all;
         foreach ($all as $single) {
-            $single->dob = date_format(new DateTime($single->dob), 'j/m/Y');
+            $single->dob = date_format(new \DateTime($single->dob), 'j/m/Y');
         }
         return $all;
         $all->dob = date('j/m/Y', $all->dob);

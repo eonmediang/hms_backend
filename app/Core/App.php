@@ -38,7 +38,7 @@ class App extends \Config
 	public function resolveController($filename)
 	{
 		$this->controller = $filename;
-		$controller_file = __DIR__.'/../controllers/'.ucfirst( $this->controller ).'Controller.php';
+		$controller_file = __DIR__.'/../Controllers/'.ucfirst( $this->controller ).'Controller.php';
 
 		// Check if there is a matching controller for the path after the main domain
 		// e.g http://domain/{controller}
