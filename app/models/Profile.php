@@ -1,5 +1,7 @@
 <?php 
 
+namespace Models;
+
 use Core\Requests;
 use Core\Registry;
 

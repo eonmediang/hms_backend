@@ -9,15 +9,13 @@ class ProfileController extends \Core\Controller
     {
         if (Requests::method() == 'post'){
             return sendJsonResponse(
-                $this->model('Profile')
-                    ->update()
+                (new Profile())->update()
             );
         }
         $uid = Requests::queryStrings()->uid;
         if ( $uid )
             return sendJsonResponse(
-                $this->model('Profile')
-                    ->get($uid)
+                (new Profile())->get( $uid )
             );
     }
 }

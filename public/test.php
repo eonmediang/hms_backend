@@ -94,13 +94,21 @@ function genStaffCode( $id, $threshold = 10000 ){
 // // var_dump(date('j/m/Y', $date));
 // var_dump($d);
 
-$id = 'A1048577';
-preg_match('/[0-9]+/', $id, $match);
+// $id = 'A1048577';
+// preg_match('/[0-9]+/', $id, $match);
 
-// var_dump( $match);
+// // var_dump( $match);
 
-$d = '33%2C%20Igando%20road';
-echo basename(__DIR__); var_dump( pathinfo(__DIR__) );
+// $d = '33%2C%20Igando%20road';
+// echo basename(__DIR__); var_dump( pathinfo(__DIR__) );
+
+$file = 'C:/WTServer/conf/test3.php';
+// $file = __DIR__.'/test3.php';
+// $content = file_get_contents(__DIR__.'/test.php');
+// file_put_contents($file, $content);
+var_dump($_SERVER);
+echo dirname($_SERVER[''])
+
 
 
 // Generate an md5 hash of the current time
