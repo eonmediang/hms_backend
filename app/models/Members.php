@@ -77,8 +77,6 @@ class Members
         $assoc = $form->association;
         $img = $form->img_url;
 
-        // return $dob;
-
         // Format dob
         $dob = str_replace('/', '-', $dob);
         try {

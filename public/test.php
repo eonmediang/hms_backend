@@ -1,5 +1,26 @@
 <?php 
 
+$config = [
+'hostname' => '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=104.239.149.162)(PORT=1521))(CONNECT_DATA=(SID=cbscloud)))',
+'username' => 'XXBILLZ',
+'password' => 'xxbillz',
+'database' => 'XXBILLZ',
+];
+
+$opt = [
+
+		PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+		PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+		PDO::ATTR_EMULATE_PREPARES   => false,
+
+	];
+
+try {
+	$conn = new PDO('oci:dbname='.$config['hostname'], $config['username'], $config['password'], $opt);
+} catch (PDOException $e){
+	echo $e->getMessage();
+}
+
 // require_once __DIR__.'/../app/vendor/autoload.php';
 
 // var_dump( getenv('TEMP') );
@@ -8,9 +29,9 @@
 // $product = '[{"pid":"5","price":"25","qty":11340,"unit":"bulk","total_price":"283500.00","discount":""},{"pid":"27","price":"21","qty":8100,"unit":"bulk","total_price":"170100.00","discount":""},{"pid":"20","price":"19","qty":10000,"unit":"bulk","total_price":"190000.00","discount":""}]';
 // print_r( json_decode( $product ) );
 
-$date = '27-04-1988';
-$date_array = explode('/', $date);
-$d = new DateTime($date);
+// $date = '27-04-1988';
+// $date_array = explode('/', $date);
+// $d = new DateTime($date);
 // var_dump($d->format(DATE_W3C) );
 
 // function genStaffCode( $id, $threshold = 1000 ){
@@ -102,12 +123,12 @@ function genStaffCode( $id, $threshold = 10000 ){
 // $d = '33%2C%20Igando%20road';
 // echo basename(__DIR__); var_dump( pathinfo(__DIR__) );
 
-$file = 'C:/WTServer/conf/test3.php';
-// $file = __DIR__.'/test3.php';
-// $content = file_get_contents(__DIR__.'/test.php');
-// file_put_contents($file, $content);
-var_dump($_SERVER);
-echo dirname($_SERVER[''])
+// $file = 'C:/WTServer/conf/test3.php';
+// // $file = __DIR__.'/test3.php';
+// // $content = file_get_contents(__DIR__.'/test.php');
+// // file_put_contents($file, $content);
+// var_dump($_SERVER);
+// echo dirname($_SERVER[''])
 
 
 
@@ -187,21 +208,21 @@ echo dirname($_SERVER[''])
 // 	return implode( ',', $numbers );
 // }
 
-function formatPhoneNumbers( $numbers )
-{
-	$count = count( $numbers );
-	for ($i=0; $i < $count; $i++) { 
+// function formatPhoneNumbers( $numbers )
+// {
+// 	$count = count( $numbers );
+// 	for ($i=0; $i < $count; $i++) { 
 
-		$num = $numbers[ $i ];
-		$len = strlen( $num );
-		$first = substr($num, 0, 1);
-		$remainder = substr($num, 1, ( $len - 1 ) );
+// 		$num = $numbers[ $i ];
+// 		$len = strlen( $num );
+// 		$first = substr($num, 0, 1);
+// 		$remainder = substr($num, 1, ( $len - 1 ) );
 
-		if ( $first == '0' ) $numbers[ $i ] = '234'.$remainder;
-	}
+// 		if ( $first == '0' ) $numbers[ $i ] = '234'.$remainder;
+// 	}
 	
-	return implode( ',', $numbers );
-}
+// 	return implode( ',', $numbers );
+// }
 
 // $numbers = ['08083845557', '07065512885', '09053004018', '23488223355'];
 
